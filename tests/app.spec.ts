@@ -55,9 +55,9 @@ test("navigation, lecture, catégories, recherche par auteur et source", async (
     .click();
   await expect(page.locator(".reader")).toHaveClass(/large-text/);
   await nav(page, "Bibliothèque");
-  await page.getByRole("button", { name: "Récemment lues" }).click();
+  await page.getByRole("button", { name: "Historique" }).click();
   await expect(page.locator(".idea-card")).toHaveCount(1);
-  await page.getByRole("button", { name: "Livres & sources" }).click();
+  await page.getByRole("button", { name: "Sources" }).click();
   await expect(page.locator(".book-item")).toHaveCount(12);
   await page
     .locator(".book-item")
@@ -85,7 +85,7 @@ test("favoris et préférences persistent après rechargement", async ({
     .getByRole("button", { name: `Retirer : ${title}`, exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Gardez ce qui vous fait réfléchir" }),
+    page.getByRole("heading", { name: "Aucune idée sauvegardée" }),
   ).toBeVisible();
 });
 test("collections : créer, ajouter, renommer, retirer et supprimer", async ({
@@ -190,9 +190,7 @@ test("hors ligne : rechargement, lecture, favoris, collections et source externe
   ).toBeVisible();
   await context.setOffline(true);
   await page.reload();
-  await expect(
-    page.getByRole("heading", { name: "Les petits réglages." }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Réglages." })).toBeVisible();
   await nav(page, "Découvrir");
   await expect(page.locator(".idea-grid .idea-card")).toHaveCount(20);
   await openFirst(page);
@@ -231,7 +229,7 @@ test("découverte aléatoire et présentation mobile et bureau sans débordement
     ),
   ).toBeTruthy();
   await page.screenshot({ path: "test-results/mobile.png", fullPage: true });
-  await page.getByRole("button", { name: "Surprenez-moi" }).click();
+  await page.getByRole("button", { name: "Lire au hasard" }).click();
   await expect(page.locator(".reader")).toBeVisible();
   await page.getByRole("button", { name: "Retour", exact: true }).click();
   await expect(page.locator(".idea-grid .idea-card")).toHaveCount(20);

@@ -32,18 +32,6 @@ export default function IdeaCard({
           <Bookmark size={19} fill={saved ? "currentColor" : "none"} />
         </button>
       </div>
-      {featured && (
-        <div className="orb-art" aria-hidden="true">
-          <div />
-          <div />
-          <div />
-          <span>
-            Les petites idées
-            <br />
-            font les grands déclics.
-          </span>
-        </div>
-      )}
       <button className="card-read" onClick={() => onRead(idea)}>
         <h3>{idea.title}</h3>
         <p>{idea.hook}</p>

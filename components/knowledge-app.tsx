@@ -21,7 +21,6 @@ import {
   Settings,
   WifiOff,
   ChevronRight,
-  Leaf,
   Sparkles,
   Clock,
   Trash2,
@@ -277,7 +276,7 @@ export default function KnowledgeApp() {
           <button className="brand" onClick={() => navigate("discover")}>
             <span className="wordmark">underlined</span>
           </button>
-          <p className="brand-caption">Un peu plus loin, chaque jour.</p>
+          <p className="brand-caption">Une bibliothèque d’idées.</p>
           <nav aria-label="Navigation principale">
             {(
               [
@@ -300,15 +299,6 @@ export default function KnowledgeApp() {
               </button>
             ))}
           </nav>
-          <div className="sidebar-note">
-            <Leaf size={24} />
-            <p>
-              La curiosité se cultive.
-              <br />
-              <strong>Une idée à la fois.</strong>
-            </p>
-            <span>Votre espace, à votre rythme.</span>
-          </div>
           <button
             className={`nav-item settings-nav ${view === "settings" ? "active" : ""}`}
             onClick={() => navigate("settings")}
@@ -525,7 +515,7 @@ export default function KnowledgeApp() {
                       <Bookmark size={17} />
                       {favoriteIds.has(active.id)
                         ? "Retirer des favoris"
-                        : "Garder cette idée"}
+                        : "Sauvegarder"}
                     </button>
                     <button className="text-button" onClick={random}>
                       Une autre idée <Shuffle size={17} />
@@ -549,30 +539,20 @@ export default function KnowledgeApp() {
                   <>
                     <div className="page-heading">
                       <div>
-                        <p className="eyebrow">
-                          <span /> LE RENDEZ-VOUS DES ESPRITS CURIEUX
-                        </p>
                         <h1>
-                          Un nouveau regard
+                          Des idées qui méritent
                           <br />
-                          commence par une idée<span>.</span>
+                          qu’on s’y arrête<span>.</span>
                         </h1>
                         <p className="subtitle">
-                          Quelques minutes pour comprendre. Des idées pour
-                          longtemps.
+                          Psychologie, stratégie, philosophie. Une idée à la
+                          fois, avec ses sources.
                         </p>
-                      </div>
-                      <div className="heading-illustration" aria-hidden="true">
-                        <span>u</span>
-                        <i />
-                        <small>RESTEZ CURIEUX</small>
                       </div>
                     </div>
                     <div className="section-title">
-                      <h2>
-                        <Sparkles size={19} /> La sélection du jour
-                      </h2>
-                      <span>Une pause. Un déclic.</span>
+                      <h2>La sélection du jour</h2>
+                      <span>Une fiche à lire aujourd’hui</span>
                     </div>
                     <div className="daily-layout">
                       {daily && (
@@ -586,22 +566,13 @@ export default function KnowledgeApp() {
                       )}
                       <aside className="discovery-aside">
                         <div className="serendipity">
-                          <span className="mini-label">
-                            LAISSEZ FAIRE LE HASARD
-                          </span>
-                          <Shuffle size={37} strokeWidth={1.3} />
-                          <h3>
-                            Votre prochaine
-                            <br />
-                            bonne idée vous attend.
-                          </h3>
+                          <h3>Un sujet inattendu ?</h3>
                           <p>
-                            Sortez de vos habitudes.
-                            <br />
-                            Suivez votre curiosité.
+                            Ouvrez une fiche au hasard parmi les sujets
+                            sélectionnés.
                           </p>
                           <button onClick={random}>
-                            Surprenez-moi <ArrowUpRight size={17} />
+                            Lire au hasard <ArrowUpRight size={17} />
                           </button>
                         </div>
                         <div className="reading-note">
@@ -632,11 +603,10 @@ export default function KnowledgeApp() {
                             <>
                               <BookOpen size={23} />
                               <div>
-                                <strong>
-                                  Votre prochaine habitude préférée
-                                </strong>
+                                <strong>Retrouvez vos lectures ici</strong>
                                 <p>
-                                  Deux minutes de lecture, un peu chaque jour.
+                                  Ouvrez une fiche pour commencer. Votre
+                                  progression est enregistrée.
                                 </p>
                               </div>
                             </>
@@ -645,7 +615,7 @@ export default function KnowledgeApp() {
                       </aside>
                     </div>
                     <div className="section-title explore-title">
-                      <h2>À explorer, à votre rythme</h2>
+                      <h2>Toutes les idées</h2>
                       <span>{catalog.length} idées à découvrir</span>
                     </div>
                   </>
@@ -654,15 +624,13 @@ export default function KnowledgeApp() {
                   <>
                     <div className="page-heading compact">
                       <div>
-                        <p className="eyebrow">VOS IDÉES PRENNENT RACINE</p>
                         <h1>
                           Votre bibliothèque<span>.</span>
                         </h1>
                         <p className="subtitle">
-                          Ce qui vous inspire, toujours à portée de main.
+                          Vos idées sauvegardées, vos lectures et leurs sources.
                         </p>
                       </div>
-                      <BookOpen size={60} strokeWidth={1} />
                     </div>
                     <div
                       className="tabs"
@@ -671,8 +639,8 @@ export default function KnowledgeApp() {
                     >
                       {[
                         ["favorites", "Sauvegardées"],
-                        ["books", "Livres & sources"],
-                        ["history", "Récemment lues"],
+                        ["books", "Sources"],
+                        ["history", "Historique"],
                       ].map(([key, label]) => (
                         <button
                           key={key}
@@ -689,7 +657,6 @@ export default function KnowledgeApp() {
                   <>
                     <div className="page-heading compact">
                       <div>
-                        <p className="eyebrow">FAITES DES LIENS</p>
                         <h1>
                           {selectedCollection
                             ? selectedCollection.name
@@ -698,7 +665,7 @@ export default function KnowledgeApp() {
                         </h1>
                         <p className="subtitle">
                           {selectedCollection?.description ||
-                            "Des idées qui se rencontrent. Des perspectives qui grandissent."}
+                            "Regroupez vos idées par sujet ou par projet."}
                         </p>
                       </div>
                       <button
@@ -827,66 +794,74 @@ export default function KnowledgeApp() {
                     ) : (
                       empty(
                         tab === "favorites"
-                          ? "Gardez ce qui vous fait réfléchir"
-                          : "La première page vous attend",
+                          ? "Aucune idée sauvegardée"
+                          : "Aucune lecture pour le moment",
                         query
                           ? "Aucun résultat pour cette recherche."
-                          : "Vos idées sauvegardées et vos lectures apparaîtront ici.",
+                          : tab === "favorites"
+                            ? "Vos idées sauvegardées apparaîtront ici. Utilisez le bouton de sauvegarde sur une fiche."
+                            : "Les fiches que vous ouvrez apparaîtront ici.",
                       )
                     );
                   })()}
                 {view === "library" && tab === "books" && (
-                  <div className="book-grid">
-                    {books
-                      .filter(
+                  <section aria-label="Sources des fiches">
+                    <p className="sources-note">
+                      Références des livres, articles et recherches utilisés
+                      dans les fiches. Les textes intégraux ne sont pas inclus.
+                    </p>
+                    <div className="book-grid">
+                      {books
+                        .filter(
+                          (b) =>
+                            (category === "Toutes les idées" ||
+                              b.category === category) &&
+                            normalize(
+                              b.title + " " + b.author + " " + b.category,
+                            ).includes(normalize(query)),
+                        )
+                        .map((b, n) => (
+                          <article className="book-item" key={b.id}>
+                            <div
+                              className={`book-cover ${categoryClass(b.category)}`}
+                              aria-hidden="true"
+                            >
+                              <span>UNDERLINED / SOURCES</span>
+                              <strong>{b.title}</strong>
+                              <small>{b.author}</small>
+                              <i>{String(n + 1).padStart(2, "0")}</i>
+                            </div>
+                            <span className="category-label">
+                              {b.sourceType} · {b.language.toUpperCase()}
+                            </span>
+                            <h3>{b.title}</h3>
+                            <p>{b.description}</p>
+                            <button
+                              className="text-button"
+                              onClick={() => {
+                                setCategory(b.category);
+                                location.hash = "view=discover";
+                                setQuery(b.title);
+                              }}
+                            >
+                              Explorer les fiches <ArrowRight size={16} />
+                            </button>
+                          </article>
+                        ))}
+                      {!books.some(
                         (b) =>
                           (category === "Toutes les idées" ||
                             b.category === category) &&
                           normalize(
                             b.title + " " + b.author + " " + b.category,
                           ).includes(normalize(query)),
-                      )
-                      .map((b, n) => (
-                        <article className="book-item" key={b.id}>
-                          <div
-                            className={`book-cover ${categoryClass(b.category)}`}
-                            aria-hidden="true"
-                          >
-                            <span>UNDERLINED / SOURCES</span>
-                            <strong>{b.title}</strong>
-                            <small>{b.author}</small>
-                            <i>{String(n + 1).padStart(2, "0")}</i>
-                          </div>
-                          <span className="category-label">
-                            {b.sourceType} · {b.language.toUpperCase()}
-                          </span>
-                          <h3>{b.title}</h3>
-                          <p>{b.description}</p>
-                          <button
-                            className="text-button"
-                            onClick={() => {
-                              setCategory(b.category);
-                              location.hash = "view=discover";
-                              setQuery(b.title);
-                            }}
-                          >
-                            Explorer les fiches <ArrowRight size={16} />
-                          </button>
-                        </article>
-                      ))}
-                    {!books.some(
-                      (b) =>
-                        (category === "Toutes les idées" ||
-                          b.category === category) &&
-                        normalize(
-                          b.title + " " + b.author + " " + b.category,
-                        ).includes(normalize(query)),
-                    ) &&
-                      empty(
-                        "Aucune source trouvée",
-                        "Essayez un autre titre ou auteur.",
-                      )}
-                  </div>
+                      ) &&
+                        empty(
+                          "Aucune source trouvée",
+                          "Essayez un autre titre ou auteur.",
+                        )}
+                    </div>
+                  </section>
                 )}
                 {view === "collections" && !selectedCollection && (
                   <div className="collections-grid">
@@ -907,7 +882,7 @@ export default function KnowledgeApp() {
                           <h3>{c.name}</h3>
                           <p>
                             {c.description ||
-                              "Un espace pour relier vos idées."}
+                              "Ajoutez des idées à cette collection."}
                           </p>
                           <small>
                             {c.ideaIds.length} idée
@@ -919,7 +894,7 @@ export default function KnowledgeApp() {
                     ))}
                     {!collections.length &&
                       empty(
-                        "Un espace pour vos découvertes",
+                        "Aucune collection",
                         "Créez une collection, puis ajoutez des idées depuis leur écran de lecture.",
                       )}
                   </div>
@@ -961,7 +936,7 @@ export default function KnowledgeApp() {
                     </div>
                   ) : (
                     empty(
-                      "Cette collection attend ses idées",
+                      "Cette collection est vide",
                       "Ouvrez une fiche et utilisez l’icône collection pour l’ajouter.",
                     )
                   ))}
@@ -969,12 +944,11 @@ export default function KnowledgeApp() {
                   <>
                     <div className="page-heading compact">
                       <div>
-                        <p className="eyebrow">UN ESPACE À VOTRE IMAGE</p>
                         <h1>
-                          Les petits réglages<span>.</span>
+                          Réglages<span>.</span>
                         </h1>
                         <p className="subtitle">
-                          Votre lecture, vos données, vos choix.
+                          Apparence, lecture et sauvegarde de vos données.
                         </p>
                       </div>
                     </div>
@@ -1024,7 +998,7 @@ export default function KnowledgeApp() {
                         </div>
                       </section>
                       <section className="settings-card">
-                        <h2>Vos données vous appartiennent</h2>
+                        <h2>Sauvegarde des données</h2>
                         <p>
                           Favoris, historique, collections et préférences sont
                           conservés sur cet appareil, sans compte et sans
@@ -1153,8 +1127,10 @@ export default function KnowledgeApp() {
                   <span>
                     <span className="wordmark">underlined</span>
                   </span>
-                  <p>Moins de bruit. Plus de perspectives.</p>
-                  <small>Une bibliothèque qui vous appartient.</small>
+                  <p>
+                    {catalog.length} fiches · {books.length} sources
+                  </p>
+                  <small>Enregistré sur cet appareil.</small>
                 </footer>
               </>
             )}
@@ -1233,11 +1209,8 @@ export default function KnowledgeApp() {
                   });
                 }}
               >
-                <p className="eyebrow">RELIEZ VOS IDÉES</p>
                 <h2 id="dialog-title">
-                  {editor.id
-                    ? "Modifier la collection"
-                    : "Une nouvelle collection"}
+                  {editor.id ? "Modifier la collection" : "Nouvelle collection"}
                 </h2>
                 <label>
                   Nom
@@ -1269,7 +1242,7 @@ export default function KnowledgeApp() {
             {picker && (
               <>
                 <h2 id="dialog-title">Ajouter à une collection</h2>
-                <p>Choisissez les liens que vous voulez créer.</p>
+                <p>Sélectionnez une ou plusieurs collections.</p>
                 <div className="picker-list">
                   {collections.map((c) => (
                     <button

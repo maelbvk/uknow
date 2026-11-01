@@ -1795,3 +1795,80 @@ html[data-theme="dark"] .psychology .category-label {
   font-size: 29px;
   transform: none;
 }
+/* Editorial layout: give the text space, keep navigation and actions direct. */
+.settings-nav {
+  margin-top: auto;
+}
+.page-heading {
+  margin-top: 0;
+}
+.featured {
+  min-height: 270px;
+}
+.featured .card-top {
+  margin-bottom: 25px;
+}
+.featured .card-read {
+  max-width: 100%;
+}
+.featured .card-read h3 {
+  max-width: 520px;
+}
+.featured .card-read p {
+  max-width: 470px;
+  font-size: 13px;
+}
+.card-read p {
+  font-size: 13px;
+}
+.serendipity {
+  padding: 24px;
+}
+.serendipity h3 {
+  margin: 0 0 12px;
+  font-size: 24px;
+}
+.serendipity p {
+  font-size: 12px;
+}
+.serendipity > button {
+  margin-top: 20px;
+}
+.sources-note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 25px;
+  max-width: 650px;
+}
+@media (min-width: 1500px) {
+  .featured .card-top {
+    margin-bottom: 25px;
+  }
+}
+@media (max-width: 760px) {
+  .featured {
+    min-height: 290px;
+  }
+  .featured .card-top {
+    margin-bottom: 25px;
+  }
+  .serendipity {
+    min-height: 0;
+  }
+  .serendipity h3 {
+    margin: 0;
+    font-size: 23px;
+  }
+  .serendipity p {
+    display: block;
+    margin-top: 12px;
+  }
+  .serendipity > button {
+    position: static;
+    margin-top: 16px;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+}
