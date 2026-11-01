@@ -275,7 +275,7 @@ export default function KnowledgeApp() {
       <div className="app-shell" inert={modalOpen}>
         <aside className="sidebar">
           <button className="brand" onClick={() => navigate("discover")}>
-            uknow<span>✳</span>
+            <span className="wordmark">underlined</span>
           </button>
           <p className="brand-caption">Un peu plus loin, chaque jour.</p>
           <nav aria-label="Navigation principale">
@@ -338,7 +338,7 @@ export default function KnowledgeApp() {
                 }
               </strong>
             </span>
-            <span className="mobile-brand">uknow✳</span>
+            <span className="mobile-brand wordmark">underlined</span>
             <div className="header-actions">
               <span className="offline-indicator">
                 {!online ? (
@@ -563,7 +563,7 @@ export default function KnowledgeApp() {
                         </p>
                       </div>
                       <div className="heading-illustration" aria-hidden="true">
-                        <span>✳</span>
+                        <span>u</span>
                         <i />
                         <small>RESTEZ CURIEUX</small>
                       </div>
@@ -852,7 +852,7 @@ export default function KnowledgeApp() {
                             className={`book-cover ${categoryClass(b.category)}`}
                             aria-hidden="true"
                           >
-                            <span>UKNOW / SOURCES</span>
+                            <span>UNDERLINED / SOURCES</span>
                             <strong>{b.title}</strong>
                             <small>{b.author}</small>
                             <i>{String(n + 1).padStart(2, "0")}</i>
@@ -1048,7 +1048,7 @@ export default function KnowledgeApp() {
                                 const url = URL.createObjectURL(blob);
                                 const a = document.createElement("a");
                                 a.href = url;
-                                a.download = `uknow-${new Date().toISOString().slice(0, 10)}.json`;
+                                a.download = `underlined-${new Date().toISOString().slice(0, 10)}.json`;
                                 a.click();
                                 setTimeout(
                                   () => URL.revokeObjectURL(url),
@@ -1151,7 +1151,7 @@ export default function KnowledgeApp() {
                 )}
                 <footer className="page-footer">
                   <span>
-                    uknow<span className="brand-star">✳</span>
+                    <span className="wordmark">underlined</span>
                   </span>
                   <p>Moins de bruit. Plus de perspectives.</p>
                   <small>Une bibliothèque qui vous appartient.</small>

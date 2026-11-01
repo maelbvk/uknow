@@ -1,4 +1,4 @@
-# uknow
+# Underlined
 
 Bibliothèque personnelle de connaissances en français : 20 fiches originales, 12 références (livres, articles et recherches), sans compte, sans abonnement et sans API.
 
@@ -82,3 +82,5 @@ L’interface `IngestionJob` prépare un pipeline futur PDF/article → extracti
 ## Environnement cloud
 
 Utiliser le checkout existant `/workspace/uknow`. Chaque tâche est déjà isolée : ne pas créer de worktree sans demande explicite. Les processus ne survivent pas forcément à une nouvelle tâche : relancer `npm start` après restauration si nécessaire. Webpack est sélectionné explicitement, car les workers Turbopack ne peuvent pas ouvrir leurs ports dans cet environnement.
+
+Identité visuelle : Underlined, ivoire et bleu encre. Le nom technique du dépôt et la base IndexedDB `uknow` sont conservés pour préserver les données existantes.
