@@ -34,11 +34,12 @@ import {
   importBackup,
   validateBackup,
 } from "@/lib/db";
-import { books } from "@/lib/catalog";
+import { books, ideas as seedIdeas } from "@/lib/catalog";
 import IdeaCard from "./idea-card";
 import { useReadingProgress } from "@/lib/use-reading-progress";
 import { categoryClass } from "@/lib/presentation";
 import type { Idea, Category, Backup } from "@/lib/types";
+const catalogOrder = new Map(seedIdeas.map((idea, index) => [idea.id, index]));
 const categories: Category[] = [
   "Business et stratégie",
   "Psychologie",
@@ -59,6 +60,7 @@ export default function KnowledgeApp() {
     [activeId, setActiveId] = useState<string | null>(null),
     [category, setCategory] = useState("Toutes les idées"),
     [query, setQuery] = useState(""),
+    [visibleCount, setVisibleCount] = useState(24),
     [tab, setTab] = useState("favorites");
   const [collectionId, setCollectionId] = useState<string | null>(null),
     [editor, setEditor] = useState<{
@@ -73,7 +75,18 @@ export default function KnowledgeApp() {
     [offlineReady, setOfflineReady] = useState(false),
     [swMessage, setSwMessage] = useState("");
   const input = useRef<HTMLInputElement>(null);
-  const catalog = useLiveQuery(() => db.ideas.toArray(), [], []),
+  const catalog = useLiveQuery(
+      async () => {
+        const rows = await db.ideas.toArray();
+        return rows.sort(
+          (a, b) =>
+            (catalogOrder.get(a.id) ?? Number.MAX_SAFE_INTEGER) -
+            (catalogOrder.get(b.id) ?? Number.MAX_SAFE_INTEGER),
+        );
+      },
+      [],
+      [],
+    ),
     favorites = useLiveQuery(() => db.favorites.toArray(), [], []),
     history = useLiveQuery(
       () => db.history.orderBy("visitedAt").reverse().toArray(),
@@ -168,6 +181,9 @@ export default function KnowledgeApp() {
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
   }, []);
+  useEffect(() => {
+    setVisibleCount(24);
+  }, [category, query, view]);
   const navigate = (v: View) => {
     location.hash = `view=${v}`;
     setQuery("");
@@ -194,7 +210,16 @@ export default function KnowledgeApp() {
     return (
       (category === "Toutes les idées" || i.category === category) &&
       normalize(
-        [i.title, i.hook, i.category, b?.title, b?.author].join(" "),
+        [
+          i.title,
+          i.hook,
+          ...i.content,
+          i.example,
+          i.takeaway,
+          i.category,
+          b?.title,
+          b?.author,
+        ].join(" "),
       ).includes(normalize(query))
     );
   };
@@ -736,7 +761,7 @@ export default function KnowledgeApp() {
                       <Search size={17} />
                       <input
                         aria-label="Rechercher des idées"
-                        placeholder="Rechercher une idée…"
+                        placeholder="Sujet, auteur, ouvrage…"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                       />
@@ -753,17 +778,35 @@ export default function KnowledgeApp() {
                 )}
                 {view === "discover" &&
                   (filtered.length ? (
-                    <div className="idea-grid">
-                      {filtered.map((i) => (
-                        <IdeaCard
-                          key={i.id}
-                          idea={i}
-                          saved={favoriteIds.has(i.id)}
-                          onSave={save}
-                          onRead={open}
-                        />
-                      ))}
-                    </div>
+                    <>
+                      <div className="idea-grid">
+                        {filtered.slice(0, visibleCount).map((i) => (
+                          <IdeaCard
+                            key={i.id}
+                            idea={i}
+                            saved={favoriteIds.has(i.id)}
+                            onSave={save}
+                            onRead={open}
+                          />
+                        ))}
+                      </div>
+                      {visibleCount < filtered.length && (
+                        <div className="load-more">
+                          <p>
+                            {Math.min(visibleCount, filtered.length)} idées sur{" "}
+                            {filtered.length}
+                          </p>
+                          <button
+                            className="secondary-button"
+                            onClick={() =>
+                              setVisibleCount((count) => count + 24)
+                            }
+                          >
+                            Afficher plus d’idées <Plus size={17} />
+                          </button>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     empty(
                       "Aucune idée trouvée",
@@ -1115,9 +1158,9 @@ export default function KnowledgeApp() {
                           ensuite lire en mode avion.
                         </p>
                         <small>
-                          20 textes originaux, fondés sur des références
-                          identifiables. Aucune API d’IA n’est utilisée dans
-                          cette version.
+                          {catalog.length} textes originaux, fondés sur des
+                          références identifiables. Aucune API d’IA n’est
+                          utilisée dans cette version.
                         </small>
                       </section>
                     </div>

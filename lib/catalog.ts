@@ -1,4 +1,5 @@
 import type { Book, Idea } from "./types";
+import { additionalBooks, additionalIdeas } from "./catalog-extra";
 export const books: Book[] = [
   {
     id: "porter",
@@ -140,6 +141,7 @@ export const books: Book[] = [
     language: "fr",
     verificationStatus: "référence identifiée",
   },
+  ...additionalBooks,
 ];
 export const ideas: Idea[] = [
   {
@@ -196,7 +198,7 @@ export const ideas: Idea[] = [
     takeaway: "Décrivez l’obstacle avant de fixer le prochain objectif.",
     category: "Business et stratégie",
     bookId: "rumelt",
-    sourceReference: "Crown Business, 2011",
+    sourceReference: "Good Strategy Bad Strategy, Crown Business, 2011",
     verificationStatus: "synthèse originale",
     readingTime: 2,
     createdAt: "2026-11-01T00:00:00.000Z",
@@ -216,7 +218,7 @@ export const ideas: Idea[] = [
       "Évaluez les projets par leurs liens autant que par leurs bénéfices isolés.",
     category: "Business et stratégie",
     bookId: "rumelt",
-    sourceReference: "Crown Business, 2011",
+    sourceReference: "Good Strategy Bad Strategy, Crown Business, 2011",
     verificationStatus: "synthèse originale",
     readingTime: 2,
     createdAt: "2026-11-01T00:00:00.000Z",
@@ -544,4 +546,5 @@ export const ideas: Idea[] = [
     readingTime: 2,
     createdAt: "2026-11-01T00:00:00.000Z",
   },
+  ...additionalIdeas,
 ];

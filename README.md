@@ -1,6 +1,6 @@
 # Underlined
 
-Bibliothèque personnelle de connaissances en français : 20 fiches originales, 12 références (livres, articles et recherches), sans compte, sans abonnement et sans API.
+Bibliothèque personnelle de connaissances en français : 120 fiches originales (40 par domaine), 42 références (livres, articles et recherches), sans compte, sans abonnement et sans API.
 
 ## Démarrer
 
@@ -69,7 +69,7 @@ Ces vérifications Chromium avec dimensions iPhone ne remplacent pas un test sur
 - `app/` : App Router, métadonnées et styles adaptatifs avec Tailwind CSS 4.
 - `components/` : application et carte réutilisable.
 - `lib/types.ts` : modèles Book, Idea, Collection, History, Preferences, Backup et futur contrat IngestionJob.
-- `lib/catalog.ts` : catalogue éditorial initial, textes originaux et références identifiables. Les interprétations sont signalées ; aucune prétention à une analyse intégrale des ouvrages.
+- `lib/catalog.ts` : catalogue initial et intégration des 100 fiches de `lib/catalog-extra.ts`, textes originaux et références identifiables. Les interprétations sont signalées ; aucune prétention à une analyse intégrale des ouvrages.
 - `lib/db.ts` : schéma IndexedDB indexé, initialisation idempotente, transactions et validation de sauvegarde.
 - `lib/use-reading-progress.ts` : suivi et reprise de lecture avec effets isolés par fiche.
 - `scripts/` : génération du cache et serveur statique.
@@ -84,3 +84,5 @@ L’interface `IngestionJob` prépare un pipeline futur PDF/article → extracti
 Utiliser le checkout existant `/workspace/uknow`. Chaque tâche est déjà isolée : ne pas créer de worktree sans demande explicite. Les processus ne survivent pas forcément à une nouvelle tâche : relancer `npm start` après restauration si nécessaire. Webpack est sélectionné explicitement, car les workers Turbopack ne peuvent pas ouvrir leurs ports dans cet environnement.
 
 Identité visuelle : Underlined, ivoire et bleu encre. Le nom technique du dépôt et la base IndexedDB `uknow` sont conservés pour préserver les données existantes.
+
+Le fil affiche les fiches par lots de 24 via « Afficher plus d’idées ». La recherche porte sur les titres, auteurs, sources et textes complets, y compris les fiches encore non affichées. Toutes les fiches restent stockées et disponibles hors ligne. Les liens bibliographiques sont des DOI, des textes publics ou des recherches de référence ; ils ne garantissent pas l’accès intégral ni une vérification en ligne du texte source.

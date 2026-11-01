@@ -8,7 +8,7 @@ async function nav(page: Page, name: string) {
 }
 async function init(page: Page) {
   await page.goto("/");
-  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(20);
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(24);
 }
 async function openFirst(page: Page) {
   await page
@@ -24,7 +24,7 @@ test("navigation, lecture, catégories, recherche par auteur et source", async (
 }) => {
   await init(page);
   await page.getByRole("button", { name: "Psychologie", exact: true }).click();
-  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(7);
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(24);
   await page
     .getByRole("button", { name: "Toutes les idées", exact: true })
     .click();
@@ -58,7 +58,7 @@ test("navigation, lecture, catégories, recherche par auteur et source", async (
   await page.getByRole("button", { name: "Historique" }).click();
   await expect(page.locator(".idea-card")).toHaveCount(1);
   await page.getByRole("button", { name: "Sources" }).click();
-  await expect(page.locator(".book-item")).toHaveCount(12);
+  await expect(page.locator(".book-item")).toHaveCount(42);
   await page
     .locator(".book-item")
     .first()
@@ -192,7 +192,7 @@ test("hors ligne : rechargement, lecture, favoris, collections et source externe
   await page.reload();
   await expect(page.getByRole("heading", { name: "Réglages." })).toBeVisible();
   await nav(page, "Découvrir");
-  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(20);
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(24);
   await openFirst(page);
   await page
     .getByRole("button", { name: "Sauvegarder cette idée", exact: true })
@@ -232,7 +232,7 @@ test("découverte aléatoire et présentation mobile et bureau sans débordement
   await page.getByRole("button", { name: "Lire au hasard" }).click();
   await expect(page.locator(".reader")).toBeVisible();
   await page.getByRole("button", { name: "Retour", exact: true }).click();
-  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(20);
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(24);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await expect(
     page.getByRole("navigation", { name: "Navigation principale" }),
@@ -276,4 +276,65 @@ test("la progression persiste et la lecture reprend au bon endroit", async ({
       ),
     )
     .toBeGreaterThan(0.35);
+});
+
+test("le catalogue étendu se charge progressivement et la recherche couvre toutes les fiches", async ({
+  page,
+  context,
+}) => {
+  await init(page);
+  await page
+    .getByRole("button", { name: "Afficher plus d’idées", exact: true })
+    .click();
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(48);
+  await page.getByRole("button", { name: "Philosophie", exact: true }).click();
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(24);
+  await page
+    .getByRole("button", { name: "Afficher plus d’idées", exact: true })
+    .click();
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(40);
+  await expect(
+    page.getByRole("button", { name: "Afficher plus d’idées", exact: true }),
+  ).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Toutes les idées", exact: true })
+    .click();
+  await page
+    .getByRole("textbox", { name: "Rechercher des idées" })
+    .fill("Beauvoir");
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(3);
+  await page.locator(".idea-grid .card-read").first().click();
+  await expect(page.locator(".reference")).toContainText("Le Deuxième Sexe");
+  await page
+    .getByRole("button", { name: "Sauvegarder cette idée", exact: true })
+    .click();
+  await expect(
+    page.getByLabel("Retirer des favoris", { exact: true }),
+  ).toBeVisible();
+  await nav(page, "Découvrir");
+  await page
+    .getByRole("textbox", { name: "Rechercher des idées" })
+    .fill("conatus");
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(1);
+  await page
+    .getByRole("textbox", { name: "Rechercher des idées" })
+    .fill("Bandura");
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(4);
+  await page
+    .getByRole("textbox", { name: "Rechercher des idées" })
+    .fill("Sarasvathy");
+  await expect(page.locator(".idea-grid .idea-card")).toHaveCount(4);
+  await nav(page, "Réglages");
+  await expect(
+    page.getByText("Les ressources de l’application sont prêtes", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Réglages." })).toBeVisible();
+  await nav(page, "Bibliothèque");
+  await expect(page.locator(".idea-card")).toHaveCount(1);
+  await page.locator(".card-read").click();
+  await expect(page.locator(".reference")).toContainText("Le Deuxième Sexe");
 });
